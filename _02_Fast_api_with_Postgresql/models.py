@@ -6,6 +6,7 @@ from sqlmodel import SQLModel, Field
 import uuid
 from datetime import date
 from typing import Optional
+# from pydantic import EmailStr
 # we define explicitly that we are going to using this model to create
 # table in the data base 
 
@@ -19,7 +20,7 @@ class Student(SQLModel, table=True):
     date_of_birth : Optional[date] = None
     gender : Optional[str] = None
     grade: Optional[str] = None
-    email:Optional[str] = Field(unique=True,index=True,default=None)
+    email:Optional[str] = Field(index=True,default=None)
     phone:Optional[str] = None
 
 

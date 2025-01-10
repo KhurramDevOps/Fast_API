@@ -55,11 +55,11 @@ async def create_student(student_data: Student, session: Session = Depends(db_se
         isEmailAlreadyExist = session.exec(statement)
 
         if isEmailAlreadyExist:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
+            # raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
 
-        session.add(data)
-        session.commit()
-        session.refresh(data)
+            session.add(data)
+            session.commit()
+            session.refresh(data)
 
         return {"status": True, "message": "Student created successfully", "student_data": data}
     except ValueError as e:
