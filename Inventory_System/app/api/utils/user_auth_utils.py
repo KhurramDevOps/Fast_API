@@ -4,6 +4,7 @@ from sqlmodel import Session , select
 from app.core.db import db_session
 from typing import Union
 # from Inventory_System.app.models.user import User
+from app.models.user import User
 import bcrypt
 from bcrypt import hashpw
 from datetime import datetime, timedelta, timezone
