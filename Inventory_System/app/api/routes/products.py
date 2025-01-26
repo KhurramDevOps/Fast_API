@@ -14,12 +14,12 @@ async def create_new_product(product_data: Product,db:Session, authorization:str
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Unauthorized to create new product")
     
     user_id = isTokenVerified["sub"]
-    
+
     product_data.user_id = user_id
 
     session.add()
     session.commit()
-    session.refresh(product_data)
+    session.refresh(product_data).
     
     token = authorization.split(" ")[1]
 
