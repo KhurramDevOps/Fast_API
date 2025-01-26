@@ -3,6 +3,7 @@ from app.core.db import db_session
 from app.models.users import User
 from sqlmodel import Session, select
 from app.api.utils.user_auth_utils import  Auth
+from app.api.utils.user_auth_utils import get_user_auth
 
 user_router = APIRouter(prefix="/users",tags=["users"])
 

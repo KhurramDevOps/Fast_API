@@ -103,6 +103,20 @@ class Auth:
          )
 
          return access_token, refresh_token
+    
+    def verify_tokens(self, token: str, token_type:str= "access"):
+        try:
+            key = self.create_tokens_key if token_type == "access" else self.refresh_token_key
+
+            verified_token = jwt.decode(token, key, algorithms=["HS256"])
+
+            return verified_token
+        except jwt.ExpiredSignatureError:
+            print("Your session is expired,  please login again.")
+            return "your session is expired,  please login again"
+        except jwt.InvalidTokenError:
+            print("Invalid token .")
+            return "Invalid token , Try with correct token"
 
          
 #userAuth = Auth() #constructor function
