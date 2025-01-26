@@ -117,6 +117,9 @@ class Auth:
         except jwt.InvalidTokenError:
             print("Invalid token .")
             return "Invalid token , Try with correct token"
+        
+def get_user_auth(db_session:Session=Depends(db_session))->Auth:
+    return Auth(db_session)
 
          
 #userAuth = Auth() #constructor function
