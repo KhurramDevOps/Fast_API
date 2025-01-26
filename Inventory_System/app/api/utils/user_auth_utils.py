@@ -3,7 +3,7 @@ import jwt
 from sqlmodel import Session , select
 from app.core.db import db_session
 from typing import Union
-from Inventory_System.app.models.user import User
+# from Inventory_System.app.models.user import User
 import bcrypt
 from bcrypt import hashpw
 from datetime import datetime, timedelta, timezone
@@ -113,10 +113,10 @@ class Auth:
             return verified_token
         except jwt.ExpiredSignatureError:
             print("Your session is expired,  please login again.")
-            return "your session is expired,  please login again"
+            return None
         except jwt.InvalidTokenError:
             print("Invalid token .")
-            return "Invalid token , Try with correct token"
+            return None
         
 def get_user_auth(db_session:Session=Depends(db_session))->Auth:
     return Auth(db_session)

@@ -1,7 +1,7 @@
 from typing import Generator
 from sqlmodel import create_engine, Session, SQLModel
-from Inventory_System.app.models.user import User
-from Inventory_System.app.models.product import Product
+# from Inventory_System.app.models.user import User
+# from Inventory_System.app.models.product import Product
 from app.core.config import settings
 
 class Database:

@@ -1,6 +1,8 @@
+import uuid
 from sqlmodel import Field, Relationship
 from typing import Optional
-from Inventory_System.app.models.user import User
+from uuid import UUID
+
 from app.models.common import BaseModel
 
 class Product(BaseModel, table=True):
@@ -15,5 +17,5 @@ class Product(BaseModel, table=True):
     status: Optional[str] = Field(default="active")
 
     # Foreign key and relationship
-    user_id: Optional[int] = Field(default=None, foreign_key="users.id")
+    user_id: uuid.UUID = Field(default=None, foreign_key="users.id")
     user: Optional[User] = Relationship(back_populates="products")
