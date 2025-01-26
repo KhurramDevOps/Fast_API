@@ -3,7 +3,7 @@ import jwt
 from sqlmodel import Session , select
 from app.core.db import db_session
 from typing import Union
-from app.models.users import User
+from Inventory_System.app.models.user import User
 import bcrypt
 from bcrypt import hashpw
 from datetime import datetime, timedelta, timezone

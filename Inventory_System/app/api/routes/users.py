@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Form, Response, status ,Depends , HTTPException
 from app.core.db import db_session
-from app.models.users import User
+from Inventory_System.app.models.user import User
 from sqlmodel import Session, select
 from app.api.utils.user_auth_utils import  Auth
 from app.api.utils.user_auth_utils import get_user_auth

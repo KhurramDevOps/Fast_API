@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException , Header , status
 from sqlmodel import Session
 from app.core.db import db_session
-from app.models.products import Product
+from Inventory_System.app.models.product import Product
 from app.api.utils.user_auth_utils import get_user_auth
 
 product_router = APIRouter(prefix="/products",tags=["products"])
@@ -20,5 +20,5 @@ async def create_new_product(product_data: Product, authorization:str = Header(.
     if not isTokenVerified:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail=f"{isTokenVerified}")
     
+    return {"status":True,"message":"Product is Created successfully","data":isTokenVerified["sub"]}
     
-    pass
