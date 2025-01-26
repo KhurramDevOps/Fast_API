@@ -19,7 +19,7 @@ async def create_new_product(product_data: Product,db:Session, authorization:str
 
     session.add()
     session.commit()
-    session.refresh(product_data).
+    session.refresh(product_data)
     
     token = authorization.split(" ")[1]
 
