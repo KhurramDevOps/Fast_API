@@ -5,10 +5,11 @@ from app.api.utils.user_auth_utils import get_user_auth
 from sqlmodel import Session, select
 from typing import Optional
 from app.api.middlewares.auth_middleware import auth
+from app.schemas.product_schema import productSchema
 product_router = APIRouter(prefix="/products", tags=["products"])
 
 @product_router.post("/")
-async def create_new_product(product_data:Product, user_id:str = Depends(auth),db: Session = Depends(db_session)):
+async def create_new_product(product_data:productSchema, user_id:str = Depends(auth),db: Session = Depends(db_session)):
     
     # if not authorization.startswith("Bearer "):
     #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unathorized to create new product")
@@ -27,25 +28,34 @@ async def create_new_product(product_data:Product, user_id:str = Depends(auth),d
     if not product_data.description or not product_data.price or not product_data.status  or not product_data.product_name or not product_data.product_category or not product_data.quantity:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="All fields are required")
     # Handle the invalid data case
+   
+    
+    # we accept the user_id from auth middleware hwhich is coming after
+
+    # as we are validating our body data on the bais of 
+    # schema model whhich is not fro database tables
+    # therefore, we need to firt dump the incoming data
+    # into python dictionary using model_dump() method
+    data = product_data.model_dump()
+    data["user_id"] = user_id
+    # after that we use main Product mdel to creat edat
+    # that we use to save in databse
+    # ** mean destructive 
+     #
+    data = Product(**data)
+    db.add(data)
+    db.commit()
+    db.refresh(data)
         
 
-
-    product_data.user_id= user_id
-
-    db.add(product_data)
-    db.commit()
-    db.refresh(product_data)
     
     return {"status":True, "message":"Product is created successfully", "data":product_data}
 
 
 
 @product_router.get("/")
-async def get_all_products(authorization:Optional[str] = Header(None), db: Session = Depends(db_session)):
+async def get_all_products(auth = Depends(auth), db: Session = Depends(db_session)):
 
-
-    if authorization is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
 
     statement = select(Product)
     products =  db.exec(statement).all()
