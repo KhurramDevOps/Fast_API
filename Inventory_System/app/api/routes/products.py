@@ -11,19 +11,7 @@ product_router = APIRouter(prefix="/products", tags=["products"])
 @product_router.post("/")
 async def create_new_product(product_data:productSchema, user_id:str = Depends(auth),db: Session = Depends(db_session)):
     
-    # if not authorization.startswith("Bearer "):
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unathorized to create new product")
-    
-    # "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTYiLCJleHAiOjE3Mzc5MjIwNjMsImlhdCI6MTczNzkxMTI2M30.u8mZGQwUkGYkaNQOpFD9kybd5iaY9M7h1AmW7s1-IMM"
-    # token = authorization.split(" ")[1]
-
-    # isTokenVerified = session.verify_token(token)
-    # print(isTokenVerified)
-
-    # if not isTokenVerified:
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"token error {isTokenVerified}")
-    
-    # user_id = isTokenVerified["sub"]
+   
 
     if not product_data.description or not product_data.price or not product_data.status  or not product_data.product_name or not product_data.product_category or not product_data.quantity:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="All fields are required")
@@ -41,7 +29,7 @@ async def create_new_product(product_data:productSchema, user_id:str = Depends(a
     # after that we use main Product mdel to creat edat
     # that we use to save in databse
     # ** mean destructive 
-     #
+    #
     data = Product(**data)
     db.add(data)
     db.commit()
