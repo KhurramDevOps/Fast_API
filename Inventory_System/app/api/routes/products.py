@@ -4,26 +4,27 @@ from app.models.product import Product
 from app.api.utils.user_auth_utils import get_user_auth
 from sqlmodel import Session, select
 from typing import Optional
+from app.api.middlewares.auth_middleware import auth
 product_router = APIRouter(prefix="/products", tags=["products"])
 
 @product_router.post("/")
-async def create_new_product(product_data:Product, authorization:str = Header(...),db: Session = Depends(db_session), session:Session = Depends(get_user_auth)):
+async def create_new_product(product_data:Product, user_id:str = Depends(auth),db: Session = Depends(db_session)):
     
-    if not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unathorized to create new product")
+    # if not authorization.startswith("Bearer "):
+    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unathorized to create new product")
     
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTYiLCJleHAiOjE3Mzc5MjIwNjMsImlhdCI6MTczNzkxMTI2M30.u8mZGQwUkGYkaNQOpFD9kybd5iaY9M7h1AmW7s1-IMM"
-    token = authorization.split(" ")[1]
+    # "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZmE4NWY2NC01NzE3LTQ1NjItYjNmYy0yYzk2M2Y2NmFmYTYiLCJleHAiOjE3Mzc5MjIwNjMsImlhdCI6MTczNzkxMTI2M30.u8mZGQwUkGYkaNQOpFD9kybd5iaY9M7h1AmW7s1-IMM"
+    # token = authorization.split(" ")[1]
 
-    isTokenVerified = session.verify_token(token)
-    print(isTokenVerified)
+    # isTokenVerified = session.verify_token(token)
+    # print(isTokenVerified)
 
-    if not isTokenVerified:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"token error {isTokenVerified}")
+    # if not isTokenVerified:
+    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"token error {isTokenVerified}")
     
-    user_id = isTokenVerified["sub"]
+    # user_id = isTokenVerified["sub"]
 
-    if not product_data.description or not product_data.price or not product_data.status or not product_data.user_id or not product_data.updated_at or not product_data.created_at or not product_data.product_name or not product_data.product_category or not product_data.quantity:
+    if not product_data.description or not product_data.price or not product_data.status  or not product_data.product_name or not product_data.product_category or not product_data.quantity:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="All fields are required")
     # Handle the invalid data case
         
