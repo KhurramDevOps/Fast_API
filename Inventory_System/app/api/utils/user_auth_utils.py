@@ -107,7 +107,7 @@ class Auth:
     
     def verify_tokens(self, token: str, token_type:str= "access"):
         try:
-            key = self.create_tokens_key if token_type == "access" else self.refresh_token_key
+            key = self.create_tokens if token_type == "access" else self.refresh_token_key
 
             verified_token = jwt.decode(token, key, algorithms=["HS256"])
 
