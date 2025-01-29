@@ -56,9 +56,24 @@ async def get_all_products(authorization:Optional[str] = Header(None), db: Sessi
 
 
 
-# create endpoint to get signle product
+# # create endpoint to get signle product
+# from fastapi import FastAPI, HTTPException
+# from uuid import UUID
 
+# app = FastAPI()
 
+# # Sample product data
+# products = {
+#     UUID("123e4567-e89b-12d3-a456-426614174000"): {"id": "123e4567-e89b-12d3-a456-426614174000", "name": "Laptop", "price": 1200},
+#     UUID("123e4567-e89b-12d3-a456-426614174001"): {"id": "123e4567-e89b-12d3-a456-426614174001", "name": "Phone", "price": 800},
+# }
+
+# @app.get("/products/{product_id}")
+# def get_product(product_id: UUID):
+#     product = products.get(product_id)
+#     if not product:
+#         raise HTTPException(status_code=404, detail="Product not found")
+#     return product
 
 
 # create endpoint to get products of any single user
