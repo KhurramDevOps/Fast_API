@@ -125,5 +125,3 @@ def get_user_auth(db_session:Session=Depends(db_session))->Auth:
          
 #userAuth = Auth() #constructor function
 
-# is class is callable/invoke = yes
-# object itself is callable/invoke = no
