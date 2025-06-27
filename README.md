@@ -2,7 +2,7 @@
 ---
 ## ->Some CRUD Fastapi Project!!!
 
-___
+
 
 
 ***
