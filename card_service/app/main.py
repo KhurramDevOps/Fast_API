@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from typing import List
 from . import crud, schemas
 from .database import client  # your Motor client
+from bson import ObjectId, errors as bson_errors
 
 app = FastAPI()
 
@@ -29,6 +30,14 @@ async def shutdown_db_client():
     logger.info("🔌 MongoDB connection closed")
 
 
+def is_valid_objectid(oid):
+    try:
+        ObjectId(oid)
+        return True
+    except bson_errors.InvalidId:
+        return False
+
+
 @app.post("/cards/", response_model=schemas.Card)
 async def create_card(card_in: schemas.CardCreate):
     logger.info(f"→ create_card called: {card_in}")
@@ -42,6 +51,8 @@ async def list_cards():
 @app.get("/cards/{id}", response_model=schemas.Card)
 async def get_card(id: str):
     logger.info(f"→ get_card called: id={id}")
+    if not id or id == "None" or not is_valid_objectid(id):
+        raise HTTPException(400, "Invalid card ID")
     card = await crud.get_card(id)
     if not card:
         logger.warning(f"⚠️  Card not found: id={id}")
@@ -51,6 +62,8 @@ async def get_card(id: str):
 @app.patch("/cards/{id}", response_model=schemas.Card)
 async def update_card(id: str, card_in: schemas.CardUpdate):
     logger.info(f"→ update_card called: id={id}, data={card_in}")
+    if not id or id == "None" or not is_valid_objectid(id):
+        raise HTTPException(400, "Invalid card ID")
     card = await crud.update_card(id, card_in)
     if not card:
         logger.warning(f"⚠️  Card not found during update: id={id}")
@@ -60,6 +73,8 @@ async def update_card(id: str, card_in: schemas.CardUpdate):
 @app.delete("/cards/{id}")
 async def delete_card(id: str):
     logger.info(f"→ delete_card called: id={id}")
+    if not id or id == "None" or not is_valid_objectid(id):
+        raise HTTPException(400, "Invalid card ID")
     success = await crud.delete_card(id)
     if not success:
         logger.warning(f"⚠️  Card not found during delete: id={id}")
