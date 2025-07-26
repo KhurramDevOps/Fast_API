@@ -9,7 +9,7 @@ import asyncio
 load_dotenv()
 set_tracing_disabled(True)
 
-BASE_URL = os.getenv("BASE_URL")
+BASE_URL = os.getenv("BASE_URL") # deployed Fastapi Endpoint URL
 
 # Async client with Gemini API configuration
 provider = AsyncOpenAI(
